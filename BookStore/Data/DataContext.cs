@@ -7,13 +7,23 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 public class DataContext : IdentityDbContext<AppUser, ApplicationRole, Guid>
 {
+    public DbSet<Book> Books { get; set; }
+    public DbSet<Genre> Genres { get; set; }
+    public DbSet<Author> Authors { get; set; }
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
+        
     }
 
   
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Entity<Author>().HasMany(au => au.Books).WithOne(b => b.Author).HasForeignKey(b => b.AuthorId)
+            .OnDelete(DeleteBehavior.NoAction);
+        builder.Entity<Genre>().HasMany(au => au.Books).WithOne(b => b.Genre).HasForeignKey(b => b.GenreId)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        
         builder.Entity<ApplicationRole>().HasData([
             new ApplicationRole()
             {

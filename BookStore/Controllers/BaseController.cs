@@ -20,6 +20,7 @@ public abstract class BaseController: ControllerBase
 
     protected string MethodType => HttpContext.Request.Method;
     protected ObjectResult Ok<T>((T obj, string? error) result) =>
+        
         result.error != null
             ? base.BadRequest(new {Message = result.error})
             : base.Ok(result.obj);

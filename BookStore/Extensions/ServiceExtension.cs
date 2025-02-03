@@ -12,12 +12,13 @@ static public class ServiceExtension
     public static IServiceCollection AddCustomScopes(this IServiceCollection services)
     {
         
-        services.AddLocalization(options => options.ResourcesPath = "Resources");
+        
 
         services.AddAutoMapper(typeof(MappinProfile).Assembly);
 
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IEmailService, EmailService>();
         return services;
     }
 }

@@ -1,0 +1,1 @@
+public record BaseEntity<TId>(TId Id, DateTime? CreateionDate);

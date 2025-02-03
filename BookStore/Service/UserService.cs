@@ -3,16 +3,18 @@ using black_follow.Entity;
 using BookStore.Data.User;
 using BookStore.Resources;
 using BookStore.Services;
+using BookStore.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.VisualBasic.CompilerServices;
 
 public interface IUserService
 {
     Task<(UserLoginDto? data, string? message)> Login(LoginForm form);
     Task<(UserLoginDto? data, string? message)> Register(RegisterForm form);
-    Task<string?> RequestPasswordReset(string emailOrUsername);  // For sending reset token
-    Task<string?> ResetPassword(string token, string newPassword);  // For resetting password
+    Task<(bool? status, string? message)> RequestPasswordReset(ResetPasswordRequestForm form);  // For sending reset token
+    Task<(bool? status, string? message)> ResetPassword(ResetPasswordForm form);  // For resetting password
 }
 
 public class UserService : IUserService
@@ -62,31 +64,33 @@ public class UserService : IUserService
     }
 
     // Password Reset Request: Generate and send reset token to user's email
-    public async Task<string?> RequestPasswordReset(string emailOrUsername)
+    public async Task<(bool? status, string? message)> RequestPasswordReset(ResetPasswordRequestForm form)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == emailOrUsername || u.Email == emailOrUsername);
-        if (user == null) return _localizer["emailNotFound"];
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == form.Identifier || u.Email == form.Identifier);
+        if (user == null) return (null , _localizer["emailNotFound"]);
         
         var token = await _signInManager.UserManager.GeneratePasswordResetTokenAsync(user);
         
         // Send the reset token to the user via email
-        // TODO: change application link
-        var resetLink = $"https://yourapp.com/reset-password?token={token}";
-        await _emailService.SendEmailAsync(user.Email, "Password Reset Request", $"Click the link to reset your password: {resetLink}");
+        var resetLink = $"{Util.AppUrl}/reset-password?token={token}";
+        //TODO: uncomment this line to send message
+        // await _emailService.SendEmailAsync(user.Email, "Password Reset Request", $"Click the link to reset your password: {resetLink}");
 
-        return null; // No error, token sent successfully
+        return (null , token); // No error, token sent successfully
     }
 
     // Reset Password: Validate token and reset user's password
-    public async Task<string?> ResetPassword(string token, string newPassword)
+    public async Task<(bool? status, string? message)> ResetPassword(ResetPasswordForm form)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == "user@example.com"); // You can replace this line with user lookup logic
-        if (user == null) return _localizer["emailNotFound"];
-
-        var result = await _signInManager.UserManager.ResetPasswordAsync(user, token, newPassword);
         
-        if (!result.Succeeded) return string.Join(", ", result.Errors.Select(e => e.Description));
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == form.Identifier || u.Email == form.Identifier); // You can replace this line with user lookup logic
+        if (user == null) return (null , _localizer["emailNotFound"]);
 
-        return null;  // Password reset successful
+
+        var result = await _signInManager.UserManager.ResetPasswordAsync(user, form.Token, form.NewPassword);
+        
+        if (!result.Succeeded) return (null, string.Join(", ", result.Errors.Select(e => e.Description)));
+
+        return (true, null);  // Password reset successful
     }
 }
