@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using BookStore.Data.Dto.Author;
 using BookStore.Data.Dto.Base;
 
 namespace black_follow.Entity;
@@ -18,4 +19,7 @@ public class BookDto:BaseDto<Guid>
     
     public bool IsAvailable { get; set; }
     public string? teaser { get; set; }
+    public AuthorInBookDto Author { get; set; }
+    public string? Color { get; set; }
+    public string Genre { get; set; }
 }

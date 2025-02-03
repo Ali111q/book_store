@@ -9,5 +9,7 @@ public class BookGetAllDto:BaseDto<Guid>
     public string? Image { get; set; }
     public double Price { get; set; }
     public string? AuthorName { get; set; }
+    public string? Color { get; set; }
+
     public string? Genre { get; set; }
 }
