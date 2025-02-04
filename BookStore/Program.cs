@@ -1,5 +1,5 @@
 using System.Globalization;
-using BiladAlsafari.Extensions;
+
 using BiladAlsafari.Helpers;
 using black_follow.Entity;
 using BookStore.Extensions;
@@ -35,6 +35,8 @@ builder.Services.AddSingleton<IStringLocalizerFactory, ResourceManagerStringLoca
 builder.Services.AddSingleton<IStringLocalizer<SharedResource>, StringLocalizer<SharedResource>>();
 
 
+
+
 builder.Services.AddOpenApi();
 builder.Services.AddCustomScopes();
 
@@ -42,6 +44,11 @@ builder.Services.AddCustomScopes();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddSingleton<MongoDbDataContext>(sp =>
+{
+    return new MongoDbDataContext("mongodb://localhost:27017", "ShopCartDB", sp);
+});
+
 
 
 // Configure Identity
@@ -82,5 +89,6 @@ app.UseRequestLocalization(
     app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value
 );
 app.UseMiddleware<AuditMiddleware>();
+// app.MapHub<SignalRNotificationHub>("/test");
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.Run();

@@ -54,13 +54,27 @@ namespace BookStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AuditLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Request = table.Column<string>(type: "text", nullable: false),
+                    Response = table.Column<string>(type: "text", nullable: false),
+                    User = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Authors",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Image = table.Column<string>(type: "text", nullable: true),
-                    CreateionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Image = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,8 +87,7 @@ namespace BookStore.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Color = table.Column<string>(type: "text", nullable: true),
-                    CreateionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Color = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -188,6 +201,26 @@ namespace BookStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Notes = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -200,8 +233,7 @@ namespace BookStore.Migrations
                     GenreId = table.Column<Guid>(type: "uuid", nullable: false),
                     Teaser = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<double>(type: "double precision", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    IsAvailable = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -216,6 +248,33 @@ namespace BookStore.Migrations
                         column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    BookId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Price = table.Column<double>(type: "double precision", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Count = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -273,6 +332,21 @@ namespace BookStore.Migrations
                 name: "IX_Books_GenreId",
                 table: "Books",
                 column: "GenreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_BookId",
+                table: "OrderItems",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_OrderId",
+                table: "OrderItems",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_UserId",
+                table: "Orders",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -294,19 +368,28 @@ namespace BookStore.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "AuditLogs");
+
+            migrationBuilder.DropTable(
+                name: "OrderItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Genres");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

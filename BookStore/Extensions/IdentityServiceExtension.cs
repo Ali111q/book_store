@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace BiladAlsafari.Extensions
+namespace BookStore.Extensions
 {
     public static class IdentityServiceExtension
     {

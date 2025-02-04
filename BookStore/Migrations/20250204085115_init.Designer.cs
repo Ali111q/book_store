@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookStore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250204025455_audit")]
-    partial class audit
+    [Migration("20250204085115_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

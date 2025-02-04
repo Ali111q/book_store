@@ -22,10 +22,11 @@ public class MappinProfile : Profile
             .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Genre.Color))
             .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
             .ForMember(dest => dest.Genre, opt => opt.MapFrom(src => src.Genre.Name));
+        
         CreateMap<Book, BookGetAllDto>()
             .ForMember(dest => dest.Genre, opt => opt.MapFrom(src => src.Genre.Name))
-            .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Genre.Color))
-            .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.Name));
+            .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Genre.Color));
+        
         CreateMap<Author, AuthorInBookDto>();
         CreateMap<BookUpdate, Book>()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));

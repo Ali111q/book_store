@@ -9,21 +9,57 @@ namespace BookStore.Services;
 
 public interface IOrderService
 {
+    Task<(OrderDto? data, string? message)> SendCartOrder(OrderCartForm form, Guid userId);
     Task<(OrderDto? data, string? message)> SendOrder(OrderForm form, Guid userId);
     Task<(List<OrderDto>? data, int totalCount, string? message)> GetAll(OrderFilter filter, Guid userId, string role);
+    Task<(bool? state, string? message)> ChangeOrderStatus(ChangeOrderStateForm form);
+    Task<(bool? state, string? message)> CancelOrder(Guid orderId, Guid userId);
 }
 
 public class OrderService : IOrderService
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
+    private readonly MongoDbDataContext _mongoDbContext;
 
-    public OrderService(IMapper mapper, DataContext context)
+
+    public OrderService(IMapper mapper, DataContext context, MongoDbDataContext mongoDbContext)
     {
         _mapper = mapper;
         _context = context;
+        _mongoDbContext = mongoDbContext;
     }
 
+    public async Task<(OrderDto? data, string? message)> SendCartOrder(OrderCartForm form,  Guid userId)
+    {
+        var cart = await _mongoDbContext.GetCartAsync(userId.ToString());
+        var cartItems = await _mongoDbContext.GetCartItemsAsync(userId.ToString());
+        if (cart == null)
+        {
+            return (null, "There is no items in cart");
+        }
+
+        var _orderItems = cartItems.Select(ci => new OrderItem()
+        {
+            BookId = Guid.Parse(ci.ItemId),
+            Count = ci.Count,
+            Price = ci.Price
+        }).ToList();
+        var _order = new Order()
+        {
+            Notes = form.Notes,
+            UserId = userId,
+            Items = _orderItems
+        };
+
+        // Save the order to the database
+        var _savedOrder = await _context.Orders.AddAsync(_order);
+        await _context.SaveChangesAsync();
+       await  _mongoDbContext.ClearCartAsync(userId.ToString());
+        // Return the mapped order DTO
+        return (_mapper.Map<OrderDto>(_savedOrder.Entity), null);
+
+    }
     public async Task<(OrderDto? data, string? message)> SendOrder(OrderForm form, Guid userId)
     {
         // Check for duplicate BookId or Count == 0
@@ -87,6 +123,10 @@ public class OrderService : IOrderService
         if (role == "User")
         {
             query = query.Where(o => o.UserId == userId);
+            
+        }
+        else
+        {
             if (filter.UserId is not null)
             {
                 query = query.Where(o => o.UserId == filter.UserId);
@@ -103,4 +143,49 @@ public class OrderService : IOrderService
             .Take(filter.PageSize).ProjectTo<OrderDto>(_mapper.ConfigurationProvider).ToListAsync();
         return (_orders, _count,  null);
     }
+
+    public async Task<(bool? state, string? message)> ChangeOrderStatus(ChangeOrderStateForm form)
+    {
+        var _order = await _context.Orders.FindAsync(form.OrderId);
+        if (_order is null)
+        {
+            return (false, "Order not Found");
+        }
+
+        if (_order.Status is OrderStatus.CANCELLED)
+        {
+            return (false, "The Order Was Canceled by the user");
+
+        }
+
+        _order.Status = form.State;
+        _context.Orders.Update(_order);
+        await _context.SaveChangesAsync();
+        return (true, null);
+    }
+
+    public async Task<(bool? state, string? message)> CancelOrder( Guid orderId, Guid userId)
+    {
+        
+        var _order = await _context.Orders.FindAsync(orderId);
+        if (_order is null)
+        {
+            return (false, "Order not Found");
+        }
+
+        if (_order.UserId != userId )
+        {
+            return (false, "it's not your order");
+        }
+
+        if (_order.Status!= OrderStatus.PENDING)
+        {
+            return (false, "you can only cancel pending orders");
+        }
+        _order.Status = OrderStatus.CANCELLED;
+        _context.Orders.Update(_order);
+        await _context.SaveChangesAsync();
+        return (true, null);
+    }
+   
 }
