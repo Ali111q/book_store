@@ -1,4 +1,6 @@
 using System.Globalization;
+using BiladAlsafari.Extensions;
+using BiladAlsafari.Helpers;
 using black_follow.Entity;
 using BookStore.Extensions;
 using BookStore.Resources;
@@ -26,45 +28,22 @@ builder.Services.Configure<RequestLocalizationOptions>(op =>
         op.SupportedUICultures = supportedCultures;
     }
 });
+
 builder.Services.AddValidationServices();
 builder.Services.AddControllers().AddFluentValidation();
 builder.Services.AddSingleton<IStringLocalizerFactory, ResourceManagerStringLocalizerFactory>();
 builder.Services.AddSingleton<IStringLocalizer<SharedResource>, StringLocalizer<SharedResource>>();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
 
-    // Add JWT Authentication to Swagger
-    var securityScheme = new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
-        Reference = new OpenApiReference
-        {
-            Type = ReferenceType.SecurityScheme,
-            Id = "Bearer"
-        }
-    };
-    c.AddSecurityDefinition("Bearer", securityScheme);
 
-    var securityRequirement = new OpenApiSecurityRequirement
-    {
-        { securityScheme, Array.Empty<string>() }
-    };
-
-    c.AddSecurityRequirement(securityRequirement);
-});
 builder.Services.AddOpenApi();
 builder.Services.AddCustomScopes();
 
 // Configure database context with PostgreSQL
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddIdentityServices(builder.Configuration);
+
+
 // Configure Identity
 builder.Services.AddIdentity<AppUser, ApplicationRole>(op =>
     {
@@ -93,12 +72,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<CustomUnauthorizedMiddleware>();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 app.UseRequestLocalization(
     app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value
 );
+app.UseMiddleware<AuditMiddleware>();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.Run();

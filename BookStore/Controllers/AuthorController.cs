@@ -6,9 +6,9 @@ namespace BookStore.Controllers
 {
     public class AuthorController : BaseController
     {
-        private readonly AuthorService _service;
+        private readonly IAuthorService _service;
 
-        public AuthorController(AuthorService service)
+        public AuthorController(IAuthorService service)
         {
             _service = service;
         }
@@ -18,7 +18,7 @@ namespace BookStore.Controllers
         public async Task<ActionResult> GetAll([FromQuery] AuthorFilter filter)
         {
             var result = await _service.GetAll(filter);
-            return Ok(result);  // Return the result with a 200 OK response
+            return Ok<AuthorDto>(result, filter.Page, filter.PageSize);  // Return the result with a 200 OK response
         }
 
         // GET: api/authors/{id}
@@ -35,23 +35,17 @@ namespace BookStore.Controllers
         public async Task<ActionResult> Add([FromBody] AuthorForm form)
         {
             var result = await _service.Add(form);
-            if (result.data == null)
-            {
-                return BadRequest(result.message);  // Return 400 if there was an issue with adding
-            }
-            return CreatedAtAction(nameof(GetById), new { id = result.data?.Id }, result);  // Return 201 Created
+          
+            return Ok(result);  // Return 201 Created
         }
 
         // PUT: api/authors/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(Guid id, [FromBody] AuthorUpdateForm form)
+        public async Task<ActionResult> Update(Guid id, [FromBody] AuthorUpdate form)
         {
-            if (id != form.Id)
-            {
-                return BadRequest("Author ID mismatch.");
-            }
+ 
 
-            var result = await _service.Update(form);
+            var result = await _service.Update(form, id);
            
             return Ok(result);  // Return the updated author with a 200 OK response
         }

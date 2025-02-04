@@ -19,6 +19,10 @@ static public class ServiceExtension
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IAuthorService, AuthorService>();
+        services.AddScoped<IGenreService, GenreService>();
+        services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IOrderService, OrderService>();
         return services;
     }
 }

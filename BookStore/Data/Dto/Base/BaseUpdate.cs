@@ -1,6 +1,6 @@
 namespace BookStore.Data.Dto.Base;
 
-public class BaseUpdate<TId>
+public class BaseUpdate
 {
-    public TId Id { get; set; }
+
 }

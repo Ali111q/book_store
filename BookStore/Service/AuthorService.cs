@@ -10,9 +10,9 @@ namespace BookStore.Services;
 
 public interface IAuthorService
 {
-    Task<(List<AuthorDto> data, int totalCount, string message )> GetAll(AuthorFilter filter);
+    Task<(List<AuthorDto>? data, int totalCount, string message )> GetAll(AuthorFilter filter);
     Task<(AuthorDto? data, string?message)> GetById(Guid id);
-    Task<(AuthorDto? data, string? message)> Update(AuthorUpdateForm form);
+    Task<(AuthorDto? data, string? message)> Update(AuthorUpdate form, Guid Id);
     Task<(AuthorDto? data, string? message)> Add(AuthorForm form);
     Task<(bool? state, string? message)> Delete(Guid id);
 }
@@ -27,7 +27,7 @@ public class AuthorService:IAuthorService
         _mapper = mapper;
     }
 
-    public async Task<(List<AuthorDto> data, int totalCount, string message)> GetAll(AuthorFilter filter)
+    public async Task<(List<AuthorDto>? data, int totalCount, string message)> GetAll(AuthorFilter filter)
     {
         // Step 1: Calculate the total count with the filter
         var query = _context.Authors.AsQueryable();
@@ -66,10 +66,10 @@ public class AuthorService:IAuthorService
     }
 
 
-    public async Task<(AuthorDto? data, string? message)> Update(AuthorUpdateForm form)
+    public async Task<(AuthorDto? data, string? message)> Update(AuthorUpdate form, Guid Id)
     {
         var author = await _context.Authors
-            .FirstOrDefaultAsync(a => a.Id == form.Id);  // Fetch the author by ID
+            .FirstOrDefaultAsync(a => a.Id == Id);  // Fetch the author by ID
 
         if (author == null)
         {
@@ -123,7 +123,7 @@ public class AuthorService:IAuthorService
         // Step 2: Save changes to the database
         await _context.SaveChangesAsync();
 
-        return (true, "Author deleted successfully.");  // Return true indicating successful deletion
+        return (true, null);  // Return true indicating successful deletion
     }
 
 }
