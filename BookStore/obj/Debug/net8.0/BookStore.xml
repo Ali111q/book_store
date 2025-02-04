@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BookStore</name>
+    </assembly>
+    <members>
+        <member name="M:BookStore.Controllers.UserController.Login(BookStore.Data.User.LoginForm)">
+            <summary>
+            Open For Admin Example.
+            </summary>
+            <remarks>
+            **Test Admin:**
+            
+            ```json
+            {
+              "identifier": "admin",
+              "password": "12345678"
+            }
+            ```
+            ***For User testing go to register***
+            </remarks>
+            <param name="user">User object</param>
+            <returns>Created user</returns>
+            <response code="201">User created successfully</response>
+            <response code="400">Invalid request</response>
+        </member>
+        <member name="T:BookStore.Migrations.init">
+            <inheritdoc />
+        </member>
+        <member name="M:BookStore.Migrations.init.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BookStore.Migrations.init.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BookStore.Migrations.init.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

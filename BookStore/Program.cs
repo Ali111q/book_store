@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 
-builder.Services.AddOpenApi();
+// builder.Services.AddOpenApi();
 builder.Services.AddCustomScopes(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddSignalR();
@@ -42,7 +42,7 @@ var app = builder.Build();
 
 // if (app.Environment.IsDevelopment())
 // {
-    app.MapOpenApi();
+    // app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 // }
