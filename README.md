@@ -8,7 +8,7 @@ This project implements a basic ASP.NET Core application. The functionality incl
 
 Ensure you have the following software installed:
 
-- [.NET SDK](https://dotnet.microsoft.com/download) (version 9.0 or later)
+- [.NET SDK](https://dotnet.microsoft.com/download) (version 8.0 or later)
 - Postgres database
 - mongodb databasw
 
