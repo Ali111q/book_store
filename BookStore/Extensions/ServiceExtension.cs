@@ -47,9 +47,9 @@ static public class ServiceExtension
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddSingleton<IUserConnectionManager, UserConnectionManager>();
-        var serviceProvider = services.BuildServiceProvider();
-        var permissionSeeder = serviceProvider.GetService<SeedExtension>();
-        permissionSeeder.Initialize();
+        // var serviceProvider = services.BuildServiceProvider();
+        // var permissionSeeder = serviceProvider.GetService<SeedExtension>();
+        // permissionSeeder.Initialize();
         return services;
     }
 }
