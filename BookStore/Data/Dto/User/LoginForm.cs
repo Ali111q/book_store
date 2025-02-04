@@ -1,4 +1,3 @@
-using BookStore.Resources;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
@@ -13,13 +12,13 @@ public class LoginForm
 
 public class LoginFormValidator : AbstractValidator<LoginForm>
 {
-    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public LoginFormValidator(IStringLocalizer<SharedResource> localizer)
+
+    public LoginFormValidator()
     {
-        _localizer = localizer;
-        RuleFor(x=>x.Identifier).NotNull().WithMessage(_localizer["identifierRequired"]);
-        RuleFor(x=>x.Password).NotNull().WithMessage(_localizer["passwordRequired"]).MinimumLength(8).WithMessage(_localizer["passwordMinLength"]);
+
+        RuleFor(x=>x.Identifier).NotNull().WithMessage("Identifier is required.s");
+        RuleFor(x=>x.Password).NotNull().WithMessage("Password is required").MinimumLength(8).WithMessage("password must be 8 or more characters");
     }
     
 }

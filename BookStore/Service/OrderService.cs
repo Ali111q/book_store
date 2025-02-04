@@ -3,9 +3,14 @@ using AutoMapper.QueryableExtensions;
 using black_follow.Entity;
 using BookStore.Controllers;
 using BookStore.Data.Dto.Order;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Services;
+
+#region intreface
+
+
 
 public interface IOrderService
 {
@@ -15,20 +20,37 @@ public interface IOrderService
     Task<(bool? state, string? message)> ChangeOrderStatus(ChangeOrderStateForm form);
     Task<(bool? state, string? message)> CancelOrder(Guid orderId, Guid userId);
 }
+#endregion
 
 public class OrderService : IOrderService
 {
+    #region private
+
+    
+
     private readonly DataContext _context;
     private readonly IMapper _mapper;
     private readonly MongoDbDataContext _mongoDbContext;
+    private readonly IUserConnectionManager _connectionManager;
+    private readonly IHubContext<SignalRNotificationHub> _hubContext;
 
+    #endregion
 
-    public OrderService(IMapper mapper, DataContext context, MongoDbDataContext mongoDbContext)
+    #region constructor
+
+    public OrderService(IMapper mapper, DataContext context, MongoDbDataContext mongoDbContext, IUserConnectionManager connectionManager, IHubContext<SignalRNotificationHub> hubContext)
     {
         _mapper = mapper;
         _context = context;
         _mongoDbContext = mongoDbContext;
+        _connectionManager = connectionManager;
+        _hubContext = hubContext;
     }
+    #endregion
+
+    #region send cart order
+
+    
 
     public async Task<(OrderDto? data, string? message)> SendCartOrder(OrderCartForm form,  Guid userId)
     {
@@ -60,6 +82,14 @@ public class OrderService : IOrderService
         return (_mapper.Map<OrderDto>(_savedOrder.Entity), null);
 
     }
+    #endregion
+
+    #region send direct order
+
+
+
+    
+
     public async Task<(OrderDto? data, string? message)> SendOrder(OrderForm form, Guid userId)
     {
         // Check for duplicate BookId or Count == 0
@@ -116,7 +146,9 @@ public class OrderService : IOrderService
         // Return the mapped order DTO
         return (_mapper.Map<OrderDto>(_savedOrder.Entity), null);
     }
+    #endregion
 
+    #region get orders
     public async Task<(List<OrderDto>? data, int totalCount, string? message)> GetAll(OrderFilter filter, Guid userId, string role)
     {
         var query = _context.Orders.AsQueryable();
@@ -143,6 +175,11 @@ public class OrderService : IOrderService
             .Take(filter.PageSize).ProjectTo<OrderDto>(_mapper.ConfigurationProvider).ToListAsync();
         return (_orders, _count,  null);
     }
+    #endregion
+
+    #region chnage order statues
+
+    
 
     public async Task<(bool? state, string? message)> ChangeOrderStatus(ChangeOrderStateForm form)
     {
@@ -157,13 +194,30 @@ public class OrderService : IOrderService
             return (false, "The Order Was Canceled by the user");
 
         }
+        var _users = _connectionManager.GetConnectedUsers();
+        if (_users.Contains(_order.UserId))
+        {
+            var connectionId = _connectionManager.GetConnectionId(_order.UserId);
+            if (connectionId != null)
+            {
+                await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveNotification", new
+                {
+                    OrderId = form.OrderId,
+                    status = _order.Status,
+                }.ToString());
+            }
+        }
 
         _order.Status = form.State;
         _context.Orders.Update(_order);
         await _context.SaveChangesAsync();
         return (true, null);
     }
+    #endregion
 
+
+    #region cancel order
+    
     public async Task<(bool? state, string? message)> CancelOrder( Guid orderId, Guid userId)
     {
         
@@ -187,5 +241,6 @@ public class OrderService : IOrderService
         await _context.SaveChangesAsync();
         return (true, null);
     }
+    #endregion
    
 }

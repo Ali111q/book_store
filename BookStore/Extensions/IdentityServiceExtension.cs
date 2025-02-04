@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +15,9 @@ namespace BookStore.Extensions
             
             services.AddSwaggerGen(option =>
             {
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                option.IncludeXmlComments(xmlPath);
                 option.SwaggerDoc("v1", new OpenApiInfo { Title = "Book Store Api", Version = "v1" });
                 option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -31,6 +35,7 @@ namespace BookStore.Extensions
                         {
                             Reference = new OpenApiReference
                             {
+                                
                                 Type=ReferenceType.SecurityScheme,
                                 Id="Bearer"
                             }

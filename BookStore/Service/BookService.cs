@@ -7,25 +7,45 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Services;
 
+#region interface
+
+
+
 public interface IBookService
 {
+    
     Task<(List<BookGetAllDto>? data, int totalCount, string? message)> GetAll(BookFilter filter);
     Task<(BookDto? data, string? message)> GetById(Guid id);
     Task<(BookDto? data, string? message)> Update(BookUpdate form, Guid id);
     Task<(BookDto? data, string? message)> Add(BookForm form);
     Task<(bool? state, string? message)> Delete(Guid id);
 }
+#endregion
 
 public class BookService : IBookService
 {
+    #region private
+
+    
+
     private readonly DataContext _context;
     private readonly IMapper _mapper;
+    #endregion
+
+    #region constructor
+
+    
 
     public BookService(DataContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
+    #endregion
+
+    #region get 
+
+    
 
     public async Task<(List<BookGetAllDto>? data, int totalCount, string? message)> GetAll(BookFilter filter)
     {
@@ -67,6 +87,11 @@ public class BookService : IBookService
 
         return (book, null);
     }
+    #endregion
+
+    #region update
+
+    
 
     public async Task<(BookDto? data, string? message)> Update(BookUpdate form, Guid id)
     {
@@ -84,6 +109,11 @@ public class BookService : IBookService
         var bookDto = _mapper.Map<BookDto>(book);
         return (bookDto, null);
     }
+    #endregion
+
+    #region add
+
+    
 
     public async Task<(BookDto? data, string? message)> Add(BookForm form)
     {
@@ -99,7 +129,10 @@ public class BookService : IBookService
         var bookDto = _mapper.Map<BookDto>(book);
         return (bookDto, null);
     }
+    #endregion
 
+    #region delete
+    
     public async Task<(bool? state, string? message)> Delete(Guid id)
     {
         var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
@@ -114,4 +147,5 @@ public class BookService : IBookService
 
         return (true, null);
     }
+    #endregion
 }

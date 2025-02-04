@@ -32,22 +32,46 @@ public class DataContext : IdentityDbContext<AppUser, ApplicationRole, Guid>
         builder.Entity<Book>().HasMany(b => b.OrderItems).WithOne(oi => oi.Book).HasForeignKey(oi => oi.BookId)
             .OnDelete(DeleteBehavior.Restrict);
         
-        
-
-        builder.Entity<ApplicationRole>().HasData([
-            new ApplicationRole()
-            {
-                Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                Name = "Admin",
-                NormalizedName = "ADMIN"
-            },
-            new ApplicationRole()
-            {
-                Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                Name = "User",
-                NormalizedName = "USER"
-            }
-        ]);
         base.OnModelCreating(builder);
+
+        // var adminRole = new ApplicationRole
+        // {
+        //     Id = new Guid("11111111-1111-1111-1111-111111111111"), // Static GUID
+        //     Name = "Admin",
+        //     NormalizedName = "ADMIN"
+        // };
+        //
+        // var userRole = new ApplicationRole
+        // {
+        //     Id = new Guid("22222222-2222-2222-2222-222222222222"), // Static GUID
+        //     Name = "User",
+        //     NormalizedName = "USER"
+        // };
+        //
+        // builder.Entity<ApplicationRole>().HasData(adminRole, userRole);
+        //
+        // // Seed User with static GUID
+        //
+        // var user = new AppUser
+        // {
+        //     Id = new Guid("22222222-2222-2222-2222-222222222223"), // Static GUID
+        //     UserName = "admin",
+        //     NormalizedUserName = "ADMIN",
+        //     Email = "admin@admin.com",
+        //     NormalizedEmail = "ADMIN@ADMIN.COM",
+        //     EmailConfirmed = true
+        // };
+        //
+        // user.PasswordHash = "AQAAAAIAAYagAAAAEOGh5wElOCNPLMT13osY7X0sN7cR9J+1tLC24/+wDIwL2eECg2TuwDN/8qkgqq1Z7Q==";
+        // builder.Entity<AppUser>().HasData(user);
+        //
+        // // Seed User-Role Relationship
+        // builder.Entity<IdentityUserRole<Guid>>().HasData(
+        //     new IdentityUserRole<Guid>
+        //     {
+        //         UserId = user.Id,  // Static user ID
+        //         RoleId = adminRole.Id // Static role ID
+        //     }
+        // );
     }
 }

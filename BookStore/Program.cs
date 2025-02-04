@@ -3,7 +3,7 @@ using System.Globalization;
 using BiladAlsafari.Helpers;
 using black_follow.Entity;
 using BookStore.Extensions;
-using BookStore.Resources;
+using BookStore.Utils;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -13,82 +13,60 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddLocalization(options => options.ResourcesPath = "Resource");
-builder.Services.Configure<RequestLocalizationOptions>(op =>
-{
-    {
-        var supportedCultures = new[]
-        {
-            new CultureInfo("en"),
-            new CultureInfo("ar") // Add more as needed
-        };
 
-        op.DefaultRequestCulture = new RequestCulture("en");
-        op.SupportedCultures = supportedCultures;
-        op.SupportedUICultures = supportedCultures;
-    }
-});
+#region Configure Services
 
 builder.Services.AddValidationServices();
 builder.Services.AddControllers().AddFluentValidation();
-builder.Services.AddSingleton<IStringLocalizerFactory, ResourceManagerStringLocalizerFactory>();
-builder.Services.AddSingleton<IStringLocalizer<SharedResource>, StringLocalizer<SharedResource>>();
 
-
-
-
-builder.Services.AddOpenApi();
-builder.Services.AddCustomScopes();
-
-// Configure database context with PostgreSQL
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddIdentityServices(builder.Configuration);
-builder.Services.AddSingleton<MongoDbDataContext>(sp =>
+builder.Services.AddCors(options =>
 {
-    return new MongoDbDataContext("mongodb://localhost:27017", "ShopCartDB", sp);
+    options.AddPolicy("AllowAllOrigins",
+        builder => builder
+            .AllowAnyHeader()
+            .WithOrigins("*")
+            .AllowAnyMethod());
 });
 
+builder.Services.AddOpenApi();
+builder.Services.AddCustomScopes(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddSignalR();
 
 
-// Configure Identity
-builder.Services.AddIdentity<AppUser, ApplicationRole>(op =>
-    {
-        op.Password.RequireDigit = false;
-        op.Password.RequiredLength = 8;
-        op.Password.RequiredUniqueChars = 0;
-        op.Password.RequireLowercase = false;
-        op.Password.RequireNonAlphanumeric = false;
-        op.Password.RequireUppercase = false;
-    })
-    
-    .AddEntityFrameworkStores<DataContext>()
-    .AddDefaultTokenProviders();
+#endregion
 
 var app = builder.Build();
 
+#region Configure Middleware
 
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
-
-}
+// }
 
 app.UseHttpsRedirection();
 app.UseMiddleware<CustomUnauthorizedMiddleware>();
-
+app.UseCors("AllowAllOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 
+#endregion
+
+#region Configure Endpoints
+
+app.MapHub<SignalRNotificationHub>("/signalR").RequireCors("AllowAllOrigins");
 app.MapControllers();
-app.UseRequestLocalization(
-    app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value
-);
+
+#endregion
+
+#region  Middleware
+
 app.UseMiddleware<AuditMiddleware>();
-// app.MapHub<SignalRNotificationHub>("/test");
 app.UseMiddleware<ErrorHandlingMiddleware>();
+
+#endregion
+
 app.Run();

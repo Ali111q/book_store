@@ -1,5 +1,5 @@
 using BookStore.Data.User;
-
+using BookStore.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers;
@@ -13,7 +13,27 @@ public class UserController:BaseController
     {
         _userService = userService;
     }
+    
+  /// <summary>
+  /// Open For Admin Example.
+  /// </summary>
+  /// <remarks>
+  /// **Test Admin:**
+  /// 
+  /// ```json
+  /// {
+  ///   "identifier": "admin",
+  ///   "password": "12345678"
+  /// }
+  /// ```
+  /// ***For User testing go to register***
+  /// </remarks>
+  /// <param name="user">User object</param>
+  /// <returns>Created user</returns>
+  /// <response code="201">User created successfully</response>
+  /// <response code="400">Invalid request</response>
     [HttpPost("login")]
+    
     public async Task<ActionResult>Login([FromBody]LoginForm form)=> Ok(await _userService.Login(form));
     [HttpPost("register")]
     public async Task<ActionResult>Register([FromBody]RegisterForm form)=> Ok(await _userService.Register(form));

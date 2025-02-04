@@ -1,64 +1,48 @@
+using System.Security.Claims;
+using BookStore.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using System.Collections.Concurrent;
 
-namespace BookStore.Extensions
+[Authorize(AuthenticationSchemes = "Bearer")]
+
+public class SignalRNotificationHub : Hub
 {
-    public interface ISignalRNotificationHub
+    private readonly IUserConnectionManager _connectionManager;
+
+    public SignalRNotificationHub(IUserConnectionManager connectionManager)
     {
-        Task SendNotificationToUser(Guid userId, object message);
-        Task<List<Guid>> GetConnectedUsers();
+        _connectionManager = connectionManager;
     }
 
-    public class SignalRNotificationHub : Hub<ISignalRNotificationHub>
+
+    public override async Task OnConnectedAsync()
     {
-        private static readonly ConcurrentDictionary<Guid, string> _connectedUsers = new(); // userId -> connectionId mapping
-
-        public override async Task OnConnectedAsync()
+        var userIdClaim =Context?.User?.FindFirst("id")?.Value;
+        if (Guid.TryParse(userIdClaim, out var userId))
         {
-            try
-            {
-                if (Guid.TryParse(Context?.GetHttpContext()?.Request.Query["userId"], out var userId))
-                {
-                    await Groups.AddToGroupAsync(Context.ConnectionId, userId.ToString());
-                    _connectedUsers[userId] = Context.ConnectionId;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log exception if needed
-            }
-
-            await base.OnConnectedAsync();
+            _connectionManager.AddUser(userId, Context.ConnectionId);
+            await Groups.AddToGroupAsync(Context.ConnectionId, userId.ToString());
         }
 
-        public override async Task OnDisconnectedAsync(Exception? exception)
-        {
-            try
-            {
-                if (Guid.TryParse(Context?.GetHttpContext()?.Request.Query["userId"], out var userId))
-                {
-                    _connectedUsers.TryRemove(userId, out _);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log exception if needed
-            }
+        await base.OnConnectedAsync();
+    }
 
-            await base.OnDisconnectedAsync(exception);
+    public override async Task OnDisconnectedAsync(Exception? exception)
+    {
+        if (Guid.TryParse(Context?.GetHttpContext()?.Request.Query["userId"], out var userId))
+        {
+            _connectionManager.RemoveUser(userId);
         }
 
-        public async Task SendNotificationToUser(Guid userId, object message)
+        await base.OnDisconnectedAsync(exception);
+    }
+    public async Task SendNotificationToUser(Guid userId, object message)
+    {
+        var connectionId = _connectionManager.GetConnectionId(userId);
+        if (!string.IsNullOrEmpty(connectionId))
         {
-            if (_connectedUsers.TryGetValue(userId, out var connectionId))
-            {
-                // await Clients.Client(connectionId).SendAsync("ReceiveNotification", message);
-            }
-        }
-
-        public async Task<List<Guid>> GetConnectedUsers()
-        {
-            return await Task.FromResult(_connectedUsers.Keys.ToList());
+            await Clients.Client(connectionId).SendAsync("ReceiveNotification", message);
         }
     }
+
 }

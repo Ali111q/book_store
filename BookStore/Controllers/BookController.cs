@@ -1,5 +1,6 @@
 using BookStore.Data.Dto.Book;
 using BookStore.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -34,6 +35,7 @@ namespace BookStore.Controllers
 
         // POST: api/books
         [HttpPost]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> Add([FromBody] BookForm form)
         {
             var result = await _service.Add(form);
@@ -45,6 +47,7 @@ namespace BookStore.Controllers
 
         // PUT: api/books/{id}
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> Update(Guid id, [FromBody] BookUpdate form)
         {
             var result = await _service.Update(form, id);
@@ -55,6 +58,7 @@ namespace BookStore.Controllers
 
         // DELETE: api/books/{id}
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> Delete(Guid id)
         {
             var result = await _service.Delete(id);

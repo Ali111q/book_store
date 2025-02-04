@@ -15,14 +15,19 @@ public class MongoDbDataContext
     {
         _serviceProvider = serviceProvider;
 
-
         var client = new MongoClient(connectionString);
-        var database = client.GetDatabase(databaseName, new MongoDatabaseSettings()
-        {
-            
-        });
+        var database = client.GetDatabase(databaseName);
+
         _cartCollection = database.GetCollection<Cart>("carts");
         _cartItemCollection = database.GetCollection<CartItem>("cartItems");
+
+        // Ensure TTL index is created
+        var indexKeysDefinition = Builders<Cart>.IndexKeys.Ascending(c => c.CreatedAt);
+        var indexModel = new CreateIndexModel<Cart>(
+            indexKeysDefinition,
+            new CreateIndexOptions { ExpireAfter = TimeSpan.FromMinutes(30) } // TTL set to 30 minutes
+        );
+        _cartCollection.Indexes.CreateOne(indexModel);
     }
 
 
