@@ -1,4 +1,4 @@
-name: Deploy Bilad System Backend Service
+name: Deploy Book Store Backend Service
 on:
   push:
     branches:
@@ -8,17 +8,17 @@ jobs:
     build:
         runs-on: ubuntu-latest
         env:
-            systemctl_service_name: Backend
+            systemctl_service_name: bookstore
             message: |
               [${{ github.event.head_commit.committer.name }}](https://github.com/${{github.event.head_commit.committer.username}}) pushed new commit: 
               `[ ${{github.event.head_commit.message}} ]` 
               to [${{ github.event.repository.name }}](https://github.com/${{github.event.repository.html_url}}) 
         steps: 
-          - uses: actions/checkout@v2
+          - uses: actions/checkout@v4
           - name: Setup .NET Core SDK
-            uses: actions/setup-dotnet@v2.1.0
+            uses: actions/setup-dotnet@v4.3.0
             with:
-              dotnet-version: "8.0.x"
+              dotnet-version: "9.0.x"
               include-prerelease: false
 
           - name: Build
@@ -63,8 +63,8 @@ jobs:
             uses: appleboy/telegram-action@master
             with:
                 # to: -1002235899879
-                to: 872819018
-                token: 7327351568:AAGqfeI4QO-uxqAfv-9GIomJsUZiP6-J_tA
+                to: ${{ secrets.TELEGRAM_ID }}
+                token: ${{ secrets.BOT_TOKEN }}
                 message: ${{ env.message }}
                 format: markdown
                 disable_web_page_preview: true
