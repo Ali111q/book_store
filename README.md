@@ -10,6 +10,7 @@ Ensure you have the following software installed:
 
 - [.NET SDK](https://dotnet.microsoft.com/download) (version 9.0 or later)
 - Postgres database
+- mongodb databasw
 
 ## Project Structure
 
@@ -51,6 +52,13 @@ Open the `appsettings.json` file and update the connection string for your datab
 }
 ```
 
+Open `Utils/Utils.cs` fille and change 
+```csharp
+    public static string MongoDbConnectionString = "mongodb://localhost:27017";
+    public static string MongoDbDataBaseName = "ShopCartDB";
+```
+to your actual mongodb connection
+
 ### 4. Apply Migrations (if applicable)
 
 If using Entity Framework Core for database management, run the following command to apply any migrations:
@@ -65,9 +73,19 @@ Now, You have to change util props in `/Utils/Utils.cs`
 ```
 namespace BookStore.Utils;
 
+
 public class Util
 {
-    public static string AppUrl = "<your frontend app>";
+    public static string AppUrl = "http://localhost:5000";
+    public static string SmtpClient = "";
+    public static int SmtpPort = 587;
+    public static string SmtpUser = "";
+    public static string SmtpPassword = "";
+    public static string SmtpEmail = "";
+    public static string MongoDbConnectionString = "mongodb://localhost:27017";
+    public static string MongoDbDataBaseName = "ShopCartDB";
+    
+    
 }
 ```
 
@@ -89,3 +107,61 @@ you can open the application in your browser at `http://localhost:<port>/swagger
 
 
 Thank you for reviewing this project!
+
+
+## Production
+
+### 1. Fork the Repository
+### 2. Change ssh connection
+
+go in repo to `settings=>Secrets and variables=>Actions` and add the following
+
+| Key      | Desc                                                            |
+|----------|-----------------------------------------------------------------|
+| SSH_USERNAME | Server ssh username                                             |
+| SSH_HOST | Server ssh IP                                                   |
+| SSH_PASSWORD  | Server ssh Password                                             |   
+| TELEGRAM_ID  | **optional**: telegram user id to recieve the update message on |   
+| BOT_TOKEN  | **optional**: telegram bot token to send the update message     |   
+
+### 3. Enable Github actions
+### 4. Create Service 
+1. in the server run `nano /etc/systemd/system/<service name>.service`
+2. add this code snippet to it 
+```
+[Unit]
+Description=Backend Service for <app name>
+After=network.target
+
+[Service]
+# Working directory where your .NET Core app is deployed
+WorkingDirectory=/var/www/backend/deploy
+
+# Command to start the .NET Core application (adjust the .dll name if needed)
+ExecStart=/usr/bin/dotnet /var/www/backend/deploy/<project name>.dll
+
+# Automatically restart the service if it crashes
+Restart=always
+
+# Set the user and group to run the application as
+User=www-data
+Group=www-data
+
+# Set environment variables (e.g., production environment)
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=ASPNETCORE_URLS=http://0.0.0.0:<project port>  # Specify the port here
+
+# Optional: Log to a specific file
+StandardOutput=file:/var/log/dotnet_backend.log
+StandardError=file:/var/log/dotnet_backend_error.log
+
+[Install]
+WantedBy=multi-user.target
+```
+3. change service name in `.github/workflows/deploy.yaml`
+```yaml
+            systemctl_service_name: <your service name>
+```
+### 5. Create nginx file for it (optional for domain) 
+
+
