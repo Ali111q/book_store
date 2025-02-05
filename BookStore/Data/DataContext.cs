@@ -13,7 +13,7 @@ public class DataContext : IdentityDbContext<AppUser, ApplicationRole, Guid>
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<AuditLog> AuditLogs { get; set; }
-
+    public DbSet<Ads> Ads { get; set; }
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
     }

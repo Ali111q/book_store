@@ -4,6 +4,17 @@
         <name>BookStore</name>
     </assembly>
     <members>
+        <member name="M:BookStore.Controllers.AdController.Add(BookStore.Data.Dto.Ad.AdForm)">
+            <summary>
+            Adds a new advertisement.
+            </summary>
+            <remarks>
+            Validation rules:
+            - The `Type` must be a valid `AdType` enum value. 
+            - If the `Type` is `RANDOM_ADD(3)`, the `AdLink` field is required.
+            - If the `Type` is not `RANDOM_ADD(3)`, the `RefId` field is required.
+            </remarks>
+        </member>
         <member name="M:BookStore.Controllers.UserController.Login(BookStore.Data.User.LoginForm)">
             <summary>
             Open For Admin Example.
@@ -34,6 +45,18 @@
             <inheritdoc />
         </member>
         <member name="M:BookStore.Migrations.init.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:BookStore.Migrations.Ads">
+            <inheritdoc />
+        </member>
+        <member name="M:BookStore.Migrations.Ads.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BookStore.Migrations.Ads.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BookStore.Migrations.Ads.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

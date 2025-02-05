@@ -1,6 +1,7 @@
 using AutoMapper;
 using black_follow.Entity;
 using BookStore.Controllers;
+using BookStore.Data.Dto.Ad;
 using BookStore.Data.Dto.Author;
 using BookStore.Data.Dto.Book;
 using BookStore.Data.Dto.Genre;
@@ -58,6 +59,13 @@ public class MappinProfile : Profile
             .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Items.Sum(x => x.Price * x.Count)));
 
         CreateMap<OrderItem, OrderItemDto>();
+        #endregion
+
+        #region Ads Maps
+        CreateMap<Ads, AdDto>();
+        CreateMap<AdForm, Ads>();
+        CreateMap<AdUpdate, Ads>();
+        CreateMap<AdDto, Ads>();
         #endregion
     }
 }

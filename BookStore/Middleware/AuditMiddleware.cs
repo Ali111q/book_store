@@ -92,8 +92,39 @@ public class AuditMiddleware
         response.Body.Seek(0, SeekOrigin.Begin);
         var text = await new StreamReader(response.Body).ReadToEndAsync();
         response.Body.Seek(0, SeekOrigin.Begin);
+
+        // Modify the response body if it contains any "token" keys
+        text = MaskTokenFields(text);
+
         return $"Status: {response.StatusCode} - Body: {text}";
     }
+
+    private string MaskTokenFields(string body)
+    {
+        // Assuming the body is JSON, you can parse it and modify the content
+        try
+        {
+            var json = Newtonsoft.Json.Linq.JObject.Parse(body);
+        
+            // Loop through each property and check if its name contains "token"
+            foreach (var property in json.Properties())
+            {
+                if (property.Name.ToLower().Contains("token"))
+                {
+                    // Replace the value with $$$$$$
+                    property.Value = "$$$$$$";
+                }
+            }
+
+            return json.ToString();
+        }
+        catch (Exception)
+        {
+            // If not JSON, return the body as is (or you can implement other checks for different content types)
+            return body;
+        }
+    }
+
     #endregion
 
     #region Save Audit Log

@@ -1,5 +1,6 @@
 using black_follow.Entity;
 using BookStore.Helper;
+using BookStore.Service;
 using BookStore.Services;
 using BookStore.Utils;
 using GaragesStructure.Services;
@@ -49,6 +50,7 @@ static public class ServiceExtension
         services.AddScoped<IOrderService, OrderService>();
         services.AddSingleton<IUserConnectionManager, UserConnectionManager>();
         services.AddScoped<IFileService, FileService>();
+        services.AddScoped<IAdService, AdService>();
         // var serviceProvider = services.BuildServiceProvider();
         // var permissionSeeder = serviceProvider.GetService<SeedExtension>();
         // permissionSeeder.Initialize();
