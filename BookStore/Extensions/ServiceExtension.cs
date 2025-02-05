@@ -2,6 +2,7 @@ using black_follow.Entity;
 using BookStore.Helper;
 using BookStore.Services;
 using BookStore.Utils;
+using GaragesStructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,6 +48,7 @@ static public class ServiceExtension
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddSingleton<IUserConnectionManager, UserConnectionManager>();
+        services.AddScoped<IFileService, FileService>();
         // var serviceProvider = services.BuildServiceProvider();
         // var permissionSeeder = serviceProvider.GetService<SeedExtension>();
         // permissionSeeder.Initialize();

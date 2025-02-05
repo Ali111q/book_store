@@ -9,5 +9,13 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/postgres?user=postgres&amp;password=10109989</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="bookstore@185.158.132.72" uuid="039a67cf-0423-4013-aa9e-92cd63c9aa47">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://185.158.132.72:5432/bookstore?password=Ali@10109989&amp;user=study</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
