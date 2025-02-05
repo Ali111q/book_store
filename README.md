@@ -168,3 +168,51 @@ WantedBy=multi-user.target
 ## Test the live version
  You can test live version here [Book Store Backend](http://bookstore-api.ali-hazem.com/swagger/index.html)
 
+### Test SignalR
+
+- #### clone [signalR test repo](https://github.com/Ali111q/signalRTest)
+- #### open `Program.cs` and Do:
+  1. Replace <Backend Link> with `http://bookstore-api.ali-hazem.com` if you are using the live version.
+  2. Replace <SignalR endpoint> with `/signalR`.
+  3. Replace <UserToken> with a valid Bearer token for authentication after login.
+  
+- #### final file should look like this 
+
+```csharp
+using Microsoft.AspNetCore.SignalR.Client;
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main()
+    {
+        var connection = new HubConnectionBuilder()
+            .WithUrl("http://bookstore-api.ali-hazem.com/signalR", op =>
+            {
+                op.Headers.Add("Authorization",   "Bearer <UserToken>");
+            })
+            .Build();
+
+        connection.On<string>("ReceiveNotification", message =>
+        {
+            Console.WriteLine($"Notification Received: {message}");
+        });
+
+        await connection.StartAsync();
+        Console.WriteLine("Connected to SignalR Hub!");
+
+        while (true)
+        {
+            Console.Write("Send message: ");
+            var message = Console.ReadLine();
+            await connection.InvokeAsync("SendNotificationToUser", Guid.Parse("0194d14a-5769-7520-a3a6-38a8d9d66d13"), message);
+        }
+    }
+}
+```
+- #### run `dotnet run`
+- #### change any order status for the connected user from swagger
+- #### you should receive message like this in terminal 
+``{ OrderId = 0194d5a0-e594-767e-8b8d-4d0cd6673891, status = ACCEPTED }``
+that means it works correctly 
