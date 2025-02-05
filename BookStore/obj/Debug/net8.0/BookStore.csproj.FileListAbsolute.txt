@@ -329,3 +329,4 @@ C:\Users\MS\RiderProjects\book_store\BookStore\obj\Debug\net8.0\BookStore.pdb
 C:\Users\MS\RiderProjects\book_store\BookStore\obj\Debug\net8.0\BookStore.genruntimeconfig.cache
 C:\Users\MS\RiderProjects\book_store\BookStore\obj\Debug\net8.0\ref\BookStore.dll
 C:\Users\MS\RiderProjects\book_store\BookStore\bin\Debug\net8.0\BookStore.staticwebassets.runtime.json
+C:\Users\MS\RiderProjects\book_store\BookStore\bin\Debug\net8.0\Newtonsoft.Json.dll

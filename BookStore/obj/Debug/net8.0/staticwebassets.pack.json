@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg",
+      "PackagePath": "staticwebassets\\Attachments\\021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg"
+    },
+    {
+      "Id": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\5682cd36-2c12-4476-8122-eddea46345b2.jpg",
+      "PackagePath": "staticwebassets\\Attachments\\5682cd36-2c12-4476-8122-eddea46345b2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\62a9e299-cf9c-4442-9bac-6e74612d3021.jpg",
+      "PackagePath": "staticwebassets\\Attachments\\62a9e299-cf9c-4442-9bac-6e74612d3021.jpg"
+    },
+    {
+      "Id": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\69497d90-15cf-495b-82b5-c1839ff8977e.jpg",
+      "PackagePath": "staticwebassets\\Attachments\\69497d90-15cf-495b-82b5-c1839ff8977e.jpg"
+    },
+    {
+      "Id": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\77fc267d-c48b-4ccf-a229-1dd70011d2b9.jpg",
+      "PackagePath": "staticwebassets\\Attachments\\77fc267d-c48b-4ccf-a229-1dd70011d2b9.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BookStore.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BookStore.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.BookStore.props",
+      "PackagePath": "build\\BookStore.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.BookStore.props",
+      "PackagePath": "buildMultiTargeting\\BookStore.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.BookStore.props",
+      "PackagePath": "buildTransitive\\BookStore.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

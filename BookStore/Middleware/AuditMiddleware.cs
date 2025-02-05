@@ -55,9 +55,35 @@ public class AuditMiddleware
 
         var body = await new StreamReader(request.Body).ReadToEndAsync();
         request.Body.Position = 0;
-    
+
+        // Modify the request body if it contains any "password" keys
+        body = MaskPasswordFields(body);
+
         return $"{request.Method} {request.Path} {request.QueryString} - Body: {body}";
     }
+
+    private string MaskPasswordFields(string body)
+    {
+        // Assuming the body is JSON, this can be adapted if you're using form data or another format.
+        try
+        {
+            var json = Newtonsoft.Json.Linq.JObject.Parse(body);
+            foreach (var property in json.Properties())
+            {
+                if (property.Name.ToLower().Contains("password"))
+                {
+                    property.Value = "$$$$$$";
+                }
+            }
+            return json.ToString();
+        }
+        catch (Exception)
+        {
+            // If not JSON, return the body as is (or you can implement other checks for different content types)
+            return body;
+        }
+    }
+
     #endregion
 
     #region Response Formatting

@@ -15,6 +15,7 @@ public interface IUserService
     Task<(UserLoginDto? data, string? message)> Register(RegisterForm form);
     Task<(bool? status, string? message)> RequestPasswordReset(ResetPasswordRequestForm form);
     Task<(bool? status, string? message)> ResetPassword(ResetPasswordForm form);
+    Task<(bool? status, string? message)> ChangePassword(ChangePasswordForm form, Guid userId);
 }
 #endregion
 
@@ -96,5 +97,20 @@ public class UserService : IUserService
 
         return (true, null);
     }
+    #endregion
+
+    #region change password
+
+    public async Task<(bool? status, string? message)> ChangePassword(ChangePasswordForm form, Guid userId)
+    {
+        var _user = await _context.Users.FindAsync(userId);
+      var _changePasswordResault = await  _signInManager.UserManager.ChangePasswordAsync(_user,form.OldPassword, form.NewPassword);
+      if (!_changePasswordResault.Succeeded) return (null, _changePasswordResault.Errors.First().Description);
+      return (true, null);
+
+
+    }
+    
+
     #endregion
 }

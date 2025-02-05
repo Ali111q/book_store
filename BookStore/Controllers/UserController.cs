@@ -1,5 +1,6 @@
 using BookStore.Data.User;
 using BookStore.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers;
@@ -41,8 +42,12 @@ public class UserController:BaseController
     [HttpPost("request-reset-password")]
     public async Task<ActionResult> RequestResetPassword([FromBody] ResetPasswordRequestForm form) =>
         Ok(await _userService.RequestPasswordReset(form));
-    [HttpPost("request-reset")]
-    public async Task<ActionResult> RequestReset([FromBody] ResetPasswordForm form) =>
+    [HttpPost("password-reset")]
+    public async Task<ActionResult> PasswordReset([FromBody] ResetPasswordForm form) =>
         Ok(await _userService.ResetPassword(form));
+    [HttpPost("change-password")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordForm form) =>
+        Ok(await _userService.ChangePassword(form, Id));
 
 }
