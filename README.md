@@ -165,3 +165,6 @@ WantedBy=multi-user.target
 ### 5. Create nginx file for it (optional for domain) 
 
 
+## Test the live version
+ You can test live version here [Book Store Backend](http://bookstore-api.ali-hazem.com/swagger/index.html)
+
