@@ -166,7 +166,7 @@ WantedBy=multi-user.target
 
 
 ## Test the live version
- You can test live version here [Book Store Backend](http://bookstore-api.ali-hazem.com/swagger/index.html)
+ You can test live version here [Book Store Backend](https://api.jayak.net/swagger/index.html)
 
 ### Test SignalR
 
