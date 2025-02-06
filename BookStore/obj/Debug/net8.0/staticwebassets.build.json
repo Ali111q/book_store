@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mJVbM9EyZtlUp0oXS9ya1d/BRjYLIhGzS/k8my+p+7w=",
+  "Hash": "urJ9sybzMMGMLYcSm8qKETysVpNKlhPHutYLq5OQWGc=",
   "Source": "BookStore",
   "BasePath": "_content/BookStore",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "BookStore\\wwwroot",
       "Source": "BookStore",
-      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\",
       "BasePath": "_content/BookStore",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg",
+      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg",
       "SourceId": "BookStore",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\",
       "BasePath": "_content/BookStore",
       "RelativePath": "Attachments/021629fa-a7a1-4c92-bc8f-9376a188ab38#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -38,10 +38,10 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg"
     },
     {
-      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\5682cd36-2c12-4476-8122-eddea46345b2.jpg",
+      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\5682cd36-2c12-4476-8122-eddea46345b2.jpg",
       "SourceId": "BookStore",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\",
       "BasePath": "_content/BookStore",
       "RelativePath": "Attachments/5682cd36-2c12-4476-8122-eddea46345b2#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -59,10 +59,10 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\5682cd36-2c12-4476-8122-eddea46345b2.jpg"
     },
     {
-      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\62a9e299-cf9c-4442-9bac-6e74612d3021.jpg",
+      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\62a9e299-cf9c-4442-9bac-6e74612d3021.jpg",
       "SourceId": "BookStore",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\",
       "BasePath": "_content/BookStore",
       "RelativePath": "Attachments/62a9e299-cf9c-4442-9bac-6e74612d3021#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -80,10 +80,10 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\62a9e299-cf9c-4442-9bac-6e74612d3021.jpg"
     },
     {
-      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\69497d90-15cf-495b-82b5-c1839ff8977e.jpg",
+      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\69497d90-15cf-495b-82b5-c1839ff8977e.jpg",
       "SourceId": "BookStore",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\",
       "BasePath": "_content/BookStore",
       "RelativePath": "Attachments/69497d90-15cf-495b-82b5-c1839ff8977e#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -101,10 +101,10 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\69497d90-15cf-495b-82b5-c1839ff8977e.jpg"
     },
     {
-      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\77fc267d-c48b-4ccf-a229-1dd70011d2b9.jpg",
+      "Identity": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\77fc267d-c48b-4ccf-a229-1dd70011d2b9.jpg",
       "SourceId": "BookStore",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\",
       "BasePath": "_content/BookStore",
       "RelativePath": "Attachments/77fc267d-c48b-4ccf-a229-1dd70011d2b9#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -125,7 +125,7 @@
   "Endpoints": [
     {
       "Route": "Attachments/021629fa-a7a1-4c92-bc8f-9376a188ab38.gf124t615o.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -170,7 +170,7 @@
     },
     {
       "Route": "Attachments/021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\021629fa-a7a1-4c92-bc8f-9376a188ab38.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -207,7 +207,7 @@
     },
     {
       "Route": "Attachments/5682cd36-2c12-4476-8122-eddea46345b2.gf124t615o.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\5682cd36-2c12-4476-8122-eddea46345b2.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\5682cd36-2c12-4476-8122-eddea46345b2.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -252,7 +252,7 @@
     },
     {
       "Route": "Attachments/5682cd36-2c12-4476-8122-eddea46345b2.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\5682cd36-2c12-4476-8122-eddea46345b2.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\5682cd36-2c12-4476-8122-eddea46345b2.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -289,7 +289,7 @@
     },
     {
       "Route": "Attachments/62a9e299-cf9c-4442-9bac-6e74612d3021.gf124t615o.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\62a9e299-cf9c-4442-9bac-6e74612d3021.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\62a9e299-cf9c-4442-9bac-6e74612d3021.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -334,7 +334,7 @@
     },
     {
       "Route": "Attachments/62a9e299-cf9c-4442-9bac-6e74612d3021.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\62a9e299-cf9c-4442-9bac-6e74612d3021.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\62a9e299-cf9c-4442-9bac-6e74612d3021.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -371,7 +371,7 @@
     },
     {
       "Route": "Attachments/69497d90-15cf-495b-82b5-c1839ff8977e.gf124t615o.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\69497d90-15cf-495b-82b5-c1839ff8977e.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\69497d90-15cf-495b-82b5-c1839ff8977e.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -416,7 +416,7 @@
     },
     {
       "Route": "Attachments/69497d90-15cf-495b-82b5-c1839ff8977e.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\69497d90-15cf-495b-82b5-c1839ff8977e.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\69497d90-15cf-495b-82b5-c1839ff8977e.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -453,7 +453,7 @@
     },
     {
       "Route": "Attachments/77fc267d-c48b-4ccf-a229-1dd70011d2b9.gf124t615o.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\77fc267d-c48b-4ccf-a229-1dd70011d2b9.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\77fc267d-c48b-4ccf-a229-1dd70011d2b9.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -498,7 +498,7 @@
     },
     {
       "Route": "Attachments/77fc267d-c48b-4ccf-a229-1dd70011d2b9.jpg",
-      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\BookStore\\wwwroot\\Attachments\\77fc267d-c48b-4ccf-a229-1dd70011d2b9.jpg",
+      "AssetFile": "C:\\Users\\MS\\RiderProjects\\book_store\\bookstore\\wwwroot\\Attachments\\77fc267d-c48b-4ccf-a229-1dd70011d2b9.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {

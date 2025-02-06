@@ -60,6 +60,9 @@ namespace BookStore.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("CreateionDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid");
 
@@ -187,6 +190,9 @@ namespace BookStore.Migrations
                     b.Property<string>("AdLink")
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("CreateionDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -284,6 +290,9 @@ namespace BookStore.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CreateionDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Request")
                         .IsRequired()
                         .HasColumnType("text");
@@ -307,6 +316,9 @@ namespace BookStore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("CreateionDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Image")
                         .HasColumnType("text");
 
@@ -327,6 +339,9 @@ namespace BookStore.Migrations
 
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreateionDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -372,6 +387,9 @@ namespace BookStore.Migrations
                     b.Property<string>("Color")
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("CreateionDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -386,6 +404,9 @@ namespace BookStore.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreateionDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");

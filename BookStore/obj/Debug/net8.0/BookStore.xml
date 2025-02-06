@@ -59,5 +59,17 @@
         <member name="M:BookStore.Migrations.Ads.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:BookStore.Migrations.auditCreationDate">
+            <inheritdoc />
+        </member>
+        <member name="M:BookStore.Migrations.auditCreationDate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BookStore.Migrations.auditCreationDate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BookStore.Migrations.auditCreationDate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>
